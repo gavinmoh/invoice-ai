@@ -11,7 +11,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 # Set up the model
 generation_config = {
     "temperature": 1,
-    "top_p": 0.95,
+    "top_p": 0,
     "top_k": 0,
     "max_output_tokens": 8192,
 }
@@ -49,10 +49,11 @@ default_input_prompt = """
 You are an expert in processing invoices. Your task is to extract the line items from the invoice.
 Output the extracted line items in a tabular format. Do not include any HTML tags in the output.
 Please beware that the invoice may contain multiple pages and some of the cells may be empty.
+If multiple invoices are present in the PDF, please separate the output for each invoice with invoice number.
 Extract the following fields: Object Description, Malaysia HS code, Component quantity, Price MYR
 """
 user_input_prompt = st.text_area(
-    "User Input Prompt", key="input", value=default_input_prompt.strip(), height=150)
+    "User Input Prompt", key="input", value=default_input_prompt.strip(), height=160)
 upload_file = st.file_uploader(
     "Upload a PDF", type=["PDF"])
 if upload_file is not None:
