@@ -62,6 +62,10 @@ if upload_file is not None:
 
 submit = st.button("Extract!")
 if submit:
-    response = get_gemini_respone(user_input_prompt, images)
-    st.subheader("Response")
-    st.write(response)
+    if upload_file is None:
+        st.error("Please upload a PDF with images.")
+        st.stop()
+    else:
+        response = get_gemini_respone(user_input_prompt, images)
+        st.subheader("Response")
+        st.write(response)
