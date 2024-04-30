@@ -46,11 +46,31 @@ def get_images_from_pdf(pdf):
 # Initialize the Streamlit App
 st.set_page_config(page_title="Invoice AI")
 default_input_prompt = """
-You are an expert in processing invoices. Your task is to extract the line items from the invoice.
-Output the extracted line items in a tabular format. Do not include any HTML tags in the output.
-Please beware that the invoice may contain multiple pages and some of the cells may be empty.
-If multiple invoices are present in the PDF, please separate the output for each invoice with invoice number.
-Extract the following fields: Object Description, Malaysia HS code, Component quantity, Price MYR
+You are an expert in processing invoices and extracting relevant data from them. 
+Your task is to extract the line items from the provided invoice(s) in the following tabular format:
+
+Invoice Number: [Invoice Number]
+| Object Description | Malaysia HS Code | Component Quantity | Price MYR |
+|---------------------|-------------------|---------------------|------------|
+| [Description]       | [HS Code]         | [Quantity]          | [Price]    |
+| ...                 | ...               | ...                 | ...        |
+
+Please note the following:
+
+1. Do not include any HTML tags in the output.
+2. The invoice may contain multiple pages, and some cells may be empty. Handle these cases accordingly.
+3. If multiple invoices are present in the PDF, separate the output for each invoice with the respective invoice number.
+4. Preserve the order of the line items as they appear in the invoice.
+5. If a cell contains multiple lines of text, append them together without any line break characters.
+
+The fields to extract are:
+
+- Object Description
+- Malaysia HS Code
+- Component Quantity
+- Price MYR
+
+Ensure that the extracted data is accurate and aligned correctly in the tabular format.
 """
 user_input_prompt = st.text_area(
     "User Input Prompt", key="input", value=default_input_prompt.strip(), height=160)
