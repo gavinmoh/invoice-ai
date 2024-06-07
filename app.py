@@ -10,9 +10,9 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Set up the model
 generation_config = {
-    "temperature": 1,
-    "top_p": 0,
-    "top_k": 0,
+    "temperature": 0,
+    "top_p": 0.1,
+    "top_k": 1,
     "max_output_tokens": 8192,
 }
 
@@ -22,8 +22,9 @@ model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
 
 
 def get_gemini_respone(input_prompt, images):
+    content = [input_prompt] + images
     response = model.generate_content(
-        [input_prompt] + images)
+        content, request_options={"timeout": 1000})
     return response.text
 
 
